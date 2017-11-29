@@ -82,11 +82,16 @@ define(['jquery',
                         for (var i=0; i< $assignmentForms.length; i++) {
                             //normalize path
                             var action = $assignmentForms.attr('action');//.replace(/\//g,'');
+                            // Retrieve Div which display the code fix (replace / and {*} value)
+                            var actionFixId = action.replace(/\//g,'').replace(/\{.*\}/,'');
+                            actionFixId = '#Fix' + actionFixId;
                             if (action && isAttackSolved(action)) {
                                 //pageClass = 'fa fa-check-square-o assignment-solved';
                                 //pageAssignments.attacks.push({solved:true});
+                                $(actionFixId).show();
                             } else {
                                 solvedClass = 'solved-false';
+                                $(actionFixId).hide();
 
                             }
                         }
