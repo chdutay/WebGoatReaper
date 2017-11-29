@@ -93,7 +93,7 @@
         <connection>scm:git:git@github.com:WebGoat/WebGoat.git</connection>
         <developerConnection>scm:git:git@github.com:WebGoat/WebGoat.git</developerConnection>
       <tag>HEAD</tag>
-  </scm>
+    </scm>
 
     <issueManagement>
         <system>Github Issues</system>
@@ -167,6 +167,7 @@
     </properties>
 
     <modules>
+        <module>webgoat-doc</module>
         <module>webgoat-container</module>
         <module>webgoat-lessons</module>
         <module>webgoat-server</module>

@@ -1,0 +1,486 @@
+= Coding Dojo - Sécurité des applications 
+Louis Brémand - Charles-Henri Dutay
+:doctype: book
+:encoding: utf-8
+:lang: fr
+:toc: left
+:numbered:
+:path_tools: \\192.168.2.4\Projets\RCI\VEILLE_TECHNO\Sécurité_CodingDojo\Outils
+
+ifndef::imagesdir[:imagesdir: images]
+
+
+== Prérequis
+
+=== IntelliJ
+
+Installer IntelliJ à partir de l'installeur présent ici :
+[source, subs="attributes"]
+----
+{path_tools}
+----
+
+=== JDK
+
+S'assurer qu'une JDK 8 est installée, sinon :
+[source, subs="attributes"]
+----
+{path_tools}
+----
+
+=== Connexion à Internet
+
+Déconnecter Internet.
+
+== WebGoat
+
+=== Présentation
+
+image::wg_00.png[align="center"]
+
+[, https://www.owasp.org/index.php/Category:OWASP_WebGoat_Project]
+""
+WebGoat is a deliberately insecure web application maintained by OWASP designed to teach web application security lessons. You can install and practice with WebGoat. [...] 
+In each lesson, users must demonstrate their understanding of a security issue by exploiting a real vulnerability in the WebGoat applications. 
+For example, in one of the lessons the user must use SQL injection to steal fake credit card numbers. 
+The application aims to provide a realistic teaching environment, providing users with hints and code to further explain the lesson.
+
+Why the name "WebGoat"? Developers should not feel bad about not knowing security. Even the best programmers make security errors. What they need is a scapegoat, right? Just blame it on the 'Goat! 
+""
+
+Référence : https://github.com/WebGoat/WebGoat/wiki/Simplified-development
+
+=== Sources
+
+Récupérer les sources de WebGoat :
+[source, subs="attributes"]
+----
+{path_tools}
+----
+
+URL originale : https://github.com/WebGoat/WebGoat
+
+Dézipper l'archive dans un répertoire.
+
+=== Configuration de WebGoat sous IntelliJ
+
+Au lancement, choisir "Import Project" :
+
+image::ij_02.png[]
+
+Choisir le répertoire racine dézippé puis "OK" :
+
+image::ij_03.png[]
+
+Choisir l'import de type "Maven" puis "Next" :
+
+image::ij_04.png[]
+
+Dans l'écran suivant, garder la configuration par défaut puis "Next".
+
+Choisir le profil "release" puis "Next".
+
+Choisir le projet webgoat-parent puis "Next".
+
+Sélectionner la JDK 8 précédemment installée :
+
+image::ij_05.png[]
+
+Laisser les noms par défaut puis "Next".
+IntelliJ importe le projet.
+
+Les configurations de lancement suivantes sont possibles. La configuration via Spring Remote permettant en plus des modifications du code à chaud.
+
+
+==== Via Maven et SpringBoot
+
+====
+
+Configurer le lancement via SpringBoot via le menu "Run" :
+
+image::ij_06.png[]
+
+image::ij_07.png[]
+
+Saisir le répertoire racine en "Working directory" puis saisir dans "Command line" ("mvn" ne doit pas être saisi) :
+[source,]
+----
+-pl webgoat-container spring-boot:run
+----
+
+image::ij_01.png[]
+
+====
+
+==== Via Spring Remote
+
+====
+
+Configurer le lancement en tant qu'"Application" Java.
+
+Saisir en tant que "Main class" :
+[source,]
+----
+org.owasp.webgoat.StartWebGoat
+----
+
+Saisir le répertoire racine en "Working directory" :
+
+image::ij_09.png[]
+
+====
+
+La configuration est prête.
+WebGoat peut être lancé :
+
+image::ij_08.png[]
+
+Si tout est OK, le lancement du serveur se termine par une ligne du type :
+[source,]
+----
+2017-11-13 15:40:11.503  INFO 8828 --- [  restartedMain] org.owasp.webgoat.StartWebGoat           : Started StartWebGoat in 15.386 seconds (JVM running for 16.056)
+----
+
+=== Accès
+
+WebGoat est accessible à l'adresse suivante : http://localhost:8080/WebGoat
+
+image::wg_01.png[]
+
+Au démarrage, il faut configurer un nouvel utilisateur : 
+
+image::wg_02.png[]
+
+Après connexion, l'application nous redirige vers la première leçon :
+
+image::wg_03.png[]
+
+=== Informations complémentaires
+
+Il se peut qu'IntelliJ mette à jour des indexes ou réalise des scans de fichiers au premier lancement.
+
+La base MongoDb embarqué se déploie dans le répertoire de l'utilisateur Windows :
+[source,]
+----
+C:\Users\[user]\.webgoat
+----
+
+== Exercice Webgoat
+
+=== Injection Flaws
+
+==== SQL Injection
+
+Corriger l'erreur d'injection SQL en utilisant l'objet `PreparedStatement`
+
+.Exercice 7 : SqlInjectionLesson5a.java
+
+[source,java]
+----
+Connection connection = DatabaseUtilities.getConnection(getWebSession());
+String query = "SELECT * FROM user_data WHERE last_name = :accountName";
+
+PreparedStatement statement= connection.prepareStatement(query);
+statement.setString(1,accountName);
+ResultSet results = statement.executeQuery();
+----
+
+
+.Exercice 8 : SqlInjectionLesson5b.java
+
+[source,java]
+----
+Connection connection = DatabaseUtilities.getConnection(getWebSession());
+String query = "SELECT * FROM user_data WHERE userid = :accountName";
+
+PreparedStatement statement= connection.prepareStatement(query);
+statement.setString(1,accountName);
+ResultSet results = statement.executeQuery();
+----
+
+=== Cross-Site Scripting (XSS)
+
+==== Cross Site Scripting
+
+.Exercice 13 : stored-xss.js
+
+Il s'agit d'une faille XSS lors d'un appel Ajax. 
+
+Corriger l'erreur en utilisant échappant les caractères HTML : `new Option(unescaped).innerHTML;`
+
+
+[source,javascript]
+----
+$("#postComment").on("click", function () {
+    var commentInput = new Option($("#commentInput").val()).innerHTML;
+    $.ajax({
+        type: 'POST',
+        url: 'CrossSiteScripting/stored-xss',
+        data: JSON.stringify({text: commentInput}),
+        contentType: "application/json",
+        dataType: 'json'
+    }).then(
+        function () {
+            getChallenges();
+            $("#commentInput").val('');
+        }
+    )
+})
+----
+
+=== Access Control Flaws
+
+==== Insecure Direct Object References
+
+Il est possible de visualiser les données d'un autre utilisateur en manipulant les requêtes HTTP.
+
+.Exercice 2 : Connexion
+
+Pour la suite de l'exercice il est nécessaire de se connecter comme demandé. Il est important de parcourir tous les exercices et notamment le 6 afin de comprendre la démarche.
+
+.Exercice 5 : Partie 1 - Accès aux données
+
+Récupérer les headers de la requête obtenue lors de l'exercice 3 et faire le test cURL.
+
+TIP: Dans CHROME, il est possible de copier les informations d'une requête (Header, cURL command ...)
+
+Ensuite récupérer la requête indiqué dans l'exercice 5 et modifier le userId comme indiqué afin d'accéder aux données de l'utilisateur 2342388 (identifiable dans le code source)
+
+[source,sh]
+----
+curl "http://localhost:8080/WebGoat/IDOR/profile/2342388" ...
+----
+
+
+.Exercice 5 : Partie 2 - Modification des données
+
+Modifier la requête pour exécuter un PUT et modifier les valeurs des attributes `role` et `color` de l'utilisateur 2342388
+
+[source,sh]
+----
+curl -X PUT -d '{"role" : 1,   "color" : "red", "userId" : 2342388}'  -H "Content-Type: application/json" "http://localhost:8080/WebGoat/IDOR/profile/2342388" ... 
+----
+
+
+.Correction
+
+Modifier la classe IDOREditOtherProfiile.java afin de ne pas autoriser de modification sur un utilisateur s'il est différent.
+
+Retourner le code suivant pour indiquer la réussite :
+
+[source,java]
+----
+return trackProgress(success().feedback("idor.edit.profile.success3").build());
+----
+
+Ajouter le message de réussite dans le fichier WebGoatLabels.properties
+
+[source]
+----
+idor.edit.profile.success3=Good work! Your application is secured
+----
+
+
+
+=== Client side
+
+==== Client side filtering
+
+.Exercice 2 : Salary manager
+
+L'utilisateur connecté ne doit avoir accès qu'aux utilisateurs pour lesquels il est manager.
+En l'état, l'utilisateur a accès à tous les utilisateurs et un filtrage est réalisé côté Javascript.
+Le filtrage doit être fait côté serveur.
+
+Modifier la classe `Salaries`
+
+[source,java]
+----
+@RequestMapping(produces = {"application/json"})
+@ResponseBody
+//Ajout du paramètre userId
+public List<Map<String, Object>> invoke(@RequestParam("userId") String userId) throws ServletException, IOException {
+    NodeList nodes = null;
+    File d = new File(webGoatHomeDirectory, "ClientSideFiltering/employees.xml");
+    XPathFactory factory = XPathFactory.newInstance();
+    XPath xPath = factory.newXPath();
+    InputSource inputSource = new InputSource(new FileInputStream(d));
+
+    StringBuffer sb = new StringBuffer();
+
+    sb.append("/Employees/Employee/UserID | ");
+    sb.append("/Employees/Employee/FirstName | ");
+    sb.append("/Employees/Employee/LastName | ");
+    sb.append("/Employees/Employee/SSN | ");
+    sb.append("/Employees/Employee/Salary |");
+    //Ajout de la récupération des Managers associés
+    sb.append("/Employees/Employee/Managers/* ");
+
+    String expression = sb.toString();
+
+    try {
+        nodes = (NodeList) xPath.evaluate(expression, inputSource, XPathConstants.NODESET);
+    } catch (XPathExpressionException e) {
+        e.printStackTrace();
+    }
+    List<java.util.Map<String, Object>> json = Lists.newArrayList();
+    java.util.Map<String, Object> employeeJson = Maps.newHashMap();
+    for (int i = 0; i < nodes.getLength(); i++) {
+        Node node = nodes.item(i);
+        if ("UserID".equals(node.getNodeName())) {
+            employeeJson = Maps.newHashMap();
+            json.add(employeeJson);
+        }
+
+        String mapKey = node.getNodeName();
+        if("Manager".equals(node.getNodeName())){
+            mapKey = mapKey + i;
+        }
+        employeeJson.put(mapKey, node.getTextContent());
+    }
+
+
+    List<java.util.Map<String, Object>> filteredjson = Lists.newArrayList();
+    for(java.util.Map<String, Object> employeeMap : json){
+        for(String employeeKey : employeeMap.keySet()){
+            boolean userIsManager = false;
+            if(employeeKey.startsWith("Manager")){
+                //Filtrage de la liste vis-à-vis du userId
+                if(userId.equals(employeeMap.get(employeeKey))){
+                    filteredjson.add(employeeMap);
+                    break;
+                }
+            }
+        }
+    }
+
+    return filteredjson;
+}
+----
+
+[NOTE]
+====
+Quelle règle du TOP 10 n'est toujours pas respectée ?
+====
+
+
+=== Insecure Communication
+
+==== Insecure Login
+
+Lorsque la connexion n'est pas en HTTPS, les informations du formulaire sont visibles dans la requête.
+
+.Exercice 2 : Let's try
+
+Il est alors possible de crypter les informations coté navigateur pour éviter que les informations ne soient trop facilement détectées.
+
+Modifier la page HTML pour encoder les champs du formulaire en MD5 en utilisant la librairie suivante :
+* https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js
+
+[source,html]
+----
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
+
+<script>
+$("#submitButton").click(function(event) {
+    $("#usernameMD5").val(CryptoJS.MD5($("#username").val()).toString());
+	$("#username").val('');
+
+	$("#passwordMD5").val(CryptoJS.MD5($("#password").val()).toString());
+	$("#password").val('');
+})
+</script>
+----
+
+Modifier la classe `InsecureLoginTask` afin de comparer les données cryptées
+
+
+[source,java]
+----
+@RequestMapping(method = RequestMethod.POST)
+public
+@ResponseBody
+AttackResult completed(@RequestParam String usernameMD5, @RequestParam String passwordMD5) throws IOException {
+    String md5CaptainJack = DigestUtils.md5DigestAsHex("CaptainJack".getBytes());
+    String md5BlackPearl = DigestUtils.md5DigestAsHex("BlackPearl".getBytes());
+	if (md5CaptainJack.equals(usernameMD5.toString())  && md5BlackPearl.equals(passwordMD5.toString())) {
+		return trackProgress(success().build());
+	}
+    return trackProgress(failed().build());
+}
+----
+
+
+=== Authentication Flaws
+
+==== Authentication Bypasses
+
+.Exercice 2 : 2FA Password Reset
+
+Nous voyons qu'il y a deux paramètres secQuestion0 et secQuestion1.
+En envoyant secQuestion2 et secQuestion3, on peut voir que cela fonctionne.
+
+Modifier la classe `AccountVerificationHelper` afin que les deux paramètres soient des constantes puis utiliser ces constantes dans `verifyAccount`.
+
+[source,java]
+----
+public static String PARAM_0 = "secQuestion0";
+public static String PARAM_1 = "secQuestion1";
+
+[...]
+
+public boolean verifyAccount(Integer userId, HashMap<String,String> submittedQuestions ) {
+    if (submittedQuestions.entrySet().size() != secQuestionStore.get(verifyUserId).size()) {
+        return false;
+    }
+
+    if (submittedQuestions.containsKey(PARAM_0) && !submittedQuestions.get(PARAM_0).equals(secQuestionStore.get(verifyUserId).get(PARAM_0))) {
+        return false;
+    }
+
+    if (submittedQuestions.containsKey(PARAM_1) && !submittedQuestions.get(PARAM_1).equals(secQuestionStore.get(verifyUserId).get(PARAM_1))) {
+        return false;
+    }
+
+    // else
+    return true;
+
+}
+----
+
+Modifier la classe `VerifyAccount` et la méthode `parseSecQuestions` afin d'avoir un matching strict entre le nom du paramètre entrant et l'attendu.
+
+[source,java]
+----
+private HashMap<String,String> parseSecQuestions(HttpServletRequest req) {
+
+    Map <String,String> userAnswers = new HashMap<>();
+    List<String> paramNames = Collections.list(req.getParameterNames());
+    for  (String paramName : paramNames) {
+        //String paramName = req.getParameterNames().nextElement();
+        if (AccountVerificationHelper.PARAM_0.equals(paramName) || AccountVerificationHelper.PARAM_1.equals(paramName)) {
+            userAnswers.put(paramName,req.getParameter(paramName));
+        }
+    }
+    return (HashMap)userAnswers;
+
+}
+----
+
+=== Request Forgeries
+
+==== Cross-Site Request Forgeries
+
+.Exercice 3 : Basic Get CSRF Exercise
+
+Il y a un flag "csrf" en type hidden à false. Le passer à true (sans Refer dans le header).
+
+On passe alors dans le premier if. Voir la classe `CSRFGetFlag`.
+
+
+.Built-in
+asciidoctor-version:: {asciidoctor-version}
+safe-mode-name:: {safe-mode-name}
+docdir:: {docdir}
+docfile:: {docfile}
+imagesdir:: {imagesdir}
