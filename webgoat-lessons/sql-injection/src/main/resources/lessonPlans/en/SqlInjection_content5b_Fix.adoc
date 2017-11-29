@@ -1,0 +1,11 @@
+== Fix the hack
+
+Corriger l'erreur d'injection SQL en utilisant l'objet `PreparedStatement`
+
+==== SqlInjectionLesson5b.java
+[source,java]
+----
+PreparedStatement statement = connection.prepareStatement(query);
+statement.setString(1, accountName);
+ResultSet results = statement.executeQuery();
+----
