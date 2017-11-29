@@ -48,7 +48,7 @@ java -jar webgoat-server-<<version>>.jar
 Open a command shell/window:
 
 ```Shell
-git clone git@github.com:WebGoatReaper/WebGoatReaper.git
+git clone https://github.com/chdutay/WebGoatReaper
 ```
 
 Now let's start by compiling the project.
