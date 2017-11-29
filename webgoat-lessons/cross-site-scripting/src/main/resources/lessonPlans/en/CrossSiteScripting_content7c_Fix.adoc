@@ -1,0 +1,15 @@
+== Fix the hack
+
+Il s'agit d'une faille XSS lors d'un appel Ajax.
+
+Corriger l'erreur en échappant les caractères HTML
+
+=== stored-xss.js
+[source,javascript]
+----
+$("#postComment").on("click", function () {
+    ...
+    var commentInput = new Option(unescaped).innerHTML;
+    ...
+})
+----
