@@ -1,0 +1,33 @@
+=== Fix the hack
+
+L'utilisateur connecté a accès à tous les utilisateurs et un filtrage est réalisé côté Javascript.
+Le filtrage doit être fait côté serveur.
+
+Modifier la classe `Salaries` et récupérer l'utilisateur connecté.
+
+[source,java]
+----
+@RequestParam("userId") String userId
+----
+
+
+Ensuite, filtrer les données du fichier XML afin de ne prendre que les nodes pour lesquelles l'utilisateur connecté est le manager.
+
+[source,java]
+----
+Node node = nodes.item(i);
+if("Managers".equals(node.getNodeName())){
+    Boolean isManager = false;
+    for (int j = 0; j < node.getChildNodes().getLength(); j++) {
+        Node child = node.getChildNodes().item(j);
+        if(child.getTextContent().equals(userId)){
+            isManager = true;
+            break;
+        }
+    }
+    if(!isManager){
+        json.remove(employeeJson);
+    }
+} else {
+    ...
+----

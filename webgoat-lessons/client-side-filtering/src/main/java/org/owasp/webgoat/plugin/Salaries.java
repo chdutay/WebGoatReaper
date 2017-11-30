@@ -61,7 +61,8 @@ public class Salaries extends Endpoint {
         sb.append("/Employees/Employee/FirstName | ");
         sb.append("/Employees/Employee/LastName | ");
         sb.append("/Employees/Employee/SSN | ");
-        sb.append("/Employees/Employee/Salary ");
+        sb.append("/Employees/Employee/Salary | ");
+        sb.append("/Employees/Employee/Managers ");
 
         String expression = sb.toString();
 
@@ -70,16 +71,18 @@ public class Salaries extends Endpoint {
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         }
-        int COLUMNS = 5;
+        int COLUMNS = 6;
         List json = Lists.newArrayList();
         java.util.Map<String, Object> employeeJson = Maps.newHashMap();
         for (int i = 0; i < nodes.getLength(); i++) {
+            Node node = nodes.item(i);
             if (i % COLUMNS == 0) {
                 employeeJson = Maps.newHashMap();
                 json.add(employeeJson);
             }
-            Node node = nodes.item(i);
-            employeeJson.put(node.getNodeName(), node.getTextContent());
+            if (i % COLUMNS != COLUMNS-1) {
+                employeeJson.put(node.getNodeName(), node.getTextContent());
+            }
         }
         return json;
     }
