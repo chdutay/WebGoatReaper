@@ -1,0 +1,8 @@
+=== Fix the hack
+
+Il est possible de visualiser ou même modifier les données d'un autre utilisateur en manipulant les requêtes HTTP.
+
+Pour la suite de l'exercice, il est nécessaire de se connecter comme demandé.
+Il est important de parcourir tous les exercices et notamment l'exercice 6 afin de bien comprendre la démarche de hacking.
+
+La correction sera indiquée après réussite de l'exercice 5.

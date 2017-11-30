@@ -1,0 +1,18 @@
+=== Fix the hack
+
+Modifier la classe `IDOREditOtherProfiile.java` afin de ne plus autoriser la modification d'un utilisateur si celui-ci n'est pas l'utilisateur connecté.
+
+Retourner le code suivant pour indiquer la réussite :
+
+[source,java]
+----
+return trackProgress(success().feedback("idor.edit.profile.success3").build());
+----
+
+
+Ajouter le message de réussite dans le fichier `i18n\WebGoatLabels.properties`
+
+[source]
+----
+idor.edit.profile.success3=Good work! Your application is now secured.
+----

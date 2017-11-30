@@ -2,7 +2,7 @@
 
 Corriger l'erreur d'injection SQL en utilisant l'objet `PreparedStatement`
 
-==== SqlInjectionLesson5a.java
+=== SqlInjectionLesson5a.java
 [source,java]
 ----
 PreparedStatement statement = connection.prepareStatement(query);
