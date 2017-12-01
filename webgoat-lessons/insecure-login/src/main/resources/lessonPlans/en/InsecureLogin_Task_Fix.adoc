@@ -1,0 +1,34 @@
+=== Fix the hack
+
+Si le serveur n'est pas en HTTPS, il est alors possible de crypter les informations coté navigateur
+pour éviter que les informations ne soient trop facilement détectées.
+
+Modifier la page HTML `InsecureLogin.html` pour encoder les champs du formulaire en MD5 en utilisant la librairie suivante :
+
+* https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js
+
+[source,html]
+----
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
+
+<script>
+$("#submitButton").click(function(event) {
+    $("[name=usernameMD5]").val(CryptoJS.MD5($("[name=username]").val()).toString());
+    $("[name=username]").val('');
+
+    $("[name=passwordMD5]").val(CryptoJS.MD5($("[name=password]").val()).toString());
+    $("[name=password]").val('');
+})
+</script>
+----
+
+Modifier la classe `InsecureLoginTask.java` afin de comparer les données cryptées
+
+[source,java]
+----
+    String md5CaptainJack = DigestUtils.md5DigestAsHex("CaptainJack".getBytes());
+    String md5BlackPearl = DigestUtils.md5DigestAsHex("BlackPearl".getBytes());
+    if (md5CaptainJack.equals(usernameMD5.toString())  && md5BlackPearl.equals(passwordMD5.toString())) {
+        return trackProgress(success().build());
+    }
+----

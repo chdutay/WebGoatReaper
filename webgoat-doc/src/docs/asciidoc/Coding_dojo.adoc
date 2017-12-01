@@ -379,15 +379,18 @@ Modifier la page HTML pour encoder les champs du formulaire en MD5 en utilisant 
 
 [source,html]
 ----
+<input type="password" value="" name="usernameMD5" placeholder="usernameMD5" style="display: none;"/>
+<input type="password" value="" name="passwordMD5" placeholder="passwordMD5" style="display: none;"/>
+...
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
-
+...
 <script>
 $("#submitButton").click(function(event) {
-    $("#usernameMD5").val(CryptoJS.MD5($("#username").val()).toString());
-	$("#username").val('');
+    $("[name=usernameMD5]").val(CryptoJS.MD5($("[name=username]").val()).toString());
+    $("[name=username]").val('');
 
-	$("#passwordMD5").val(CryptoJS.MD5($("#password").val()).toString());
-	$("#password").val('');
+    $("[name=passwordMD5]").val(CryptoJS.MD5($("[name=password]").val()).toString());
+    $("[name=password]").val('');
 })
 </script>
 ----
@@ -403,9 +406,9 @@ public
 AttackResult completed(@RequestParam String usernameMD5, @RequestParam String passwordMD5) throws IOException {
     String md5CaptainJack = DigestUtils.md5DigestAsHex("CaptainJack".getBytes());
     String md5BlackPearl = DigestUtils.md5DigestAsHex("BlackPearl".getBytes());
-	if (md5CaptainJack.equals(usernameMD5.toString())  && md5BlackPearl.equals(passwordMD5.toString())) {
-		return trackProgress(success().build());
-	}
+    if (md5CaptainJack.equals(usernameMD5.toString())  && md5BlackPearl.equals(passwordMD5.toString())) {
+        return trackProgress(success().build());
+    }
     return trackProgress(failed().build());
 }
 ----
