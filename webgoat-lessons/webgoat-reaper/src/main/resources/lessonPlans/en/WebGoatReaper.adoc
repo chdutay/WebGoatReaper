@@ -1,0 +1,30 @@
+== What is WebGoatReaper?
+---
+
+image::images/scyth_farmer.jpg[The Veteran in a New field, 1865 - Winslow Homer,height=200,width=300,align="center"]
+
+WebGoatReaper is a WebGoat lesson for developers.
+
+Aim is to solve lessons from the original WebGoat but additionally, to correct the code and make the Goat more secure.
+
+Full documentation is available in: 
+[source,]
+----
+webgoat-doc\src\docs\asciidoc\
+----
+
+== Lessons reaped - Code correction possible
+
+link:#lesson/SqlInjection.lesson/6[Injection Flaws > SQL Injection part 1]
+
+link:#lesson/SqlInjection.lesson/7[Injection Flaws > SQL Injection part 2]
+
+link:#lesson/AuthBypass.lesson/1[Authentication Flaws > Authentication Bypasses]
+
+link:#lesson/CrossSiteScripting.lesson/12[Cross-Site Scripting (XSS) > Cross Site Scripting]
+
+link:#lesson/IDOR.lesson/4[Access Control Flaws > Insecure Direct Object References]
+
+link:#lesson/InsecureLogin.lesson/1[Insecure Communication > Insecure Login]
+
+link:#lesson/ClientSideFiltering.lesson/1[Client side > Client side filtering]
