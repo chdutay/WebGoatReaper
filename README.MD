@@ -25,7 +25,13 @@ you are caught engaging in unauthorized hacking, most companies will fire you.
 Claiming that you were doing security research will not work as that is the
 first thing that all hackers claim.*
 
-# Run Instructions:
+# Installation for WebGoatReaper and developper
+
+The installation documentation is in:
+https://github.com/chdutay/WebGoatReaper/blob/master/webgoat-doc/src/docs/asciidoc/coding_dojo_install.adoc
+
+
+# Original run Instructions:
 
 ## 1. Standalone 
 
