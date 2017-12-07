@@ -1,7 +1,3 @@
-== Access Control Flaws
-
-=== Insecure Direct Object References
-
 Il est possible de visualiser les données d'un autre utilisateur en manipulant les requêtes HTTP.
 
 .Exercice 2 : Connexion

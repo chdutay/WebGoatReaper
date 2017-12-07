@@ -1,7 +1,3 @@
-== Cross-Site Scripting (XSS)
-
-=== Cross Site Scripting
-
 .Exercice 13 : stored-xss.js
 
 Il s'agit d'une faille XSS lors d'un appel Ajax. 

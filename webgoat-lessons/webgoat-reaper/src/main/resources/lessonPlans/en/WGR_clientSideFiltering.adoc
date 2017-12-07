@@ -1,7 +1,3 @@
-== Client side
-
-=== Client side filtering
-
 .Exercice 2 : Salary manager
 
 L'utilisateur connecté ne doit avoir accès qu'aux utilisateurs pour lesquels il est manager.

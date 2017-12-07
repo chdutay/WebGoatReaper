@@ -1,7 +1,3 @@
-== Insecure Communication
-
-=== Insecure Login
-
 Lorsque la connexion n'est pas en HTTPS, les informations du formulaire sont visibles dans la requête.
 
 .Exercice 2 : Let's try

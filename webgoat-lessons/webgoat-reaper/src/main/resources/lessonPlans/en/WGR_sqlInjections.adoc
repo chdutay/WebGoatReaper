@@ -1,7 +1,3 @@
-== Injection Flaws
-
-=== SQL Injection
-
 Corriger l'erreur d'injection SQL en utilisant l'objet `PreparedStatement`
 
 .Exercice 7 : SqlInjectionLesson5a.java
