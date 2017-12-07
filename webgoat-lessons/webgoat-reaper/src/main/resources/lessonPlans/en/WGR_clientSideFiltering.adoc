@@ -1,0 +1,78 @@
+== Client side
+
+=== Client side filtering
+
+.Exercice 2 : Salary manager
+
+L'utilisateur connecté ne doit avoir accès qu'aux utilisateurs pour lesquels il est manager.
+En l'état, l'utilisateur a accès à tous les utilisateurs et un filtrage est réalisé côté Javascript.
+Le filtrage doit être fait côté serveur.
+
+Modifier la classe `Salaries`
+
+[source,java]
+----
+@RequestMapping(produces = {"application/json"})
+@ResponseBody
+//Ajout du paramètre userId
+public List<Map<String, Object>> invoke(@RequestParam("userId") String userId) throws ServletException, IOException {
+    NodeList nodes = null;
+    File d = new File(webGoatHomeDirectory, "ClientSideFiltering/employees.xml");
+    XPathFactory factory = XPathFactory.newInstance();
+    XPath xPath = factory.newXPath();
+    InputSource inputSource = new InputSource(new FileInputStream(d));
+
+    StringBuffer sb = new StringBuffer();
+
+    sb.append("/Employees/Employee/UserID | ");
+    sb.append("/Employees/Employee/FirstName | ");
+    sb.append("/Employees/Employee/LastName | ");
+    sb.append("/Employees/Employee/SSN | ");
+    sb.append("/Employees/Employee/Salary |");
+    //Ajout de la récupération des Managers associés
+    sb.append("/Employees/Employee/Managers/* ");
+
+    String expression = sb.toString();
+
+    try {
+        nodes = (NodeList) xPath.evaluate(expression, inputSource, XPathConstants.NODESET);
+    } catch (XPathExpressionException e) {
+        e.printStackTrace();
+    }
+    List<java.util.Map<String, Object>> json = Lists.newArrayList();
+    java.util.Map<String, Object> employeeJson = Maps.newHashMap();
+    for (int i = 0; i < nodes.getLength(); i++) {
+        Node node = nodes.item(i);
+        if ("UserID".equals(node.getNodeName())) {
+            employeeJson = Maps.newHashMap();
+            json.add(employeeJson);
+        }
+
+        String mapKey = node.getNodeName();
+        if("Manager".equals(node.getNodeName())){
+            mapKey = mapKey + i;
+        }
+        employeeJson.put(mapKey, node.getTextContent());
+    }
+
+
+    List<java.util.Map<String, Object>> filteredjson = Lists.newArrayList();
+    for(java.util.Map<String, Object> employeeMap : json){
+        for(String employeeKey : employeeMap.keySet()){
+            boolean userIsManager = false;
+            if(employeeKey.startsWith("Manager")){
+                //Filtrage de la liste vis-à-vis du userId
+                if(userId.equals(employeeMap.get(employeeKey))){
+                    filteredjson.add(employeeMap);
+                    break;
+                }
+            }
+        }
+    }
+
+    return filteredjson;
+}
+----
+
+NOTE: Quelle règle du TOP 10 n'est toujours pas respectée ?
+

@@ -1,0 +1,29 @@
+== Injection Flaws
+
+=== SQL Injection
+
+Corriger l'erreur d'injection SQL en utilisant l'objet `PreparedStatement`
+
+.Exercice 7 : SqlInjectionLesson5a.java
+
+[source,java]
+----
+Connection connection = DatabaseUtilities.getConnection(getWebSession());
+String query = "SELECT * FROM user_data WHERE last_name = :accountName";
+
+PreparedStatement statement= connection.prepareStatement(query);
+statement.setString(1,accountName);
+ResultSet results = statement.executeQuery();
+----
+
+.Exercice 8 : SqlInjectionLesson5b.java
+
+[source,java]
+----
+Connection connection = DatabaseUtilities.getConnection(getWebSession());
+String query = "SELECT * FROM user_data WHERE userid = :accountName";
+
+PreparedStatement statement= connection.prepareStatement(query);
+statement.setString(1,accountName);
+ResultSet results = statement.executeQuery();
+----

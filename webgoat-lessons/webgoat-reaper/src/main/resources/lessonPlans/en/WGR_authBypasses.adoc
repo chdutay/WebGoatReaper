@@ -1,0 +1,55 @@
+== Authentication Flaws
+
+=== Authentication Bypasses
+
+.Exercice 2 : 2FA Password Reset
+
+Nous voyons qu'il y a deux paramètres secQuestion0 et secQuestion1.
+En envoyant secQuestion2 et secQuestion3, on peut voir que cela fonctionne.
+
+Modifier la classe `AccountVerificationHelper` afin que les deux paramètres soient des constantes puis utiliser ces constantes dans `verifyAccount`.
+
+[source,java]
+----
+public static String PARAM_0 = "secQuestion0";
+public static String PARAM_1 = "secQuestion1";
+
+[...]
+
+public boolean verifyAccount(Integer userId, HashMap<String,String> submittedQuestions ) {
+    if (submittedQuestions.entrySet().size() != secQuestionStore.get(verifyUserId).size()) {
+        return false;
+    }
+
+    if (submittedQuestions.containsKey(PARAM_0) && !submittedQuestions.get(PARAM_0).equals(secQuestionStore.get(verifyUserId).get(PARAM_0))) {
+        return false;
+    }
+
+    if (submittedQuestions.containsKey(PARAM_1) && !submittedQuestions.get(PARAM_1).equals(secQuestionStore.get(verifyUserId).get(PARAM_1))) {
+        return false;
+    }
+
+    // else
+    return true;
+
+}
+----
+
+Modifier la classe `VerifyAccount` et la méthode `parseSecQuestions` afin d'avoir un matching strict entre le nom du paramètre entrant et l'attendu.
+
+[source,java]
+----
+private HashMap<String,String> parseSecQuestions(HttpServletRequest req) {
+
+    Map <String,String> userAnswers = new HashMap<>();
+    List<String> paramNames = Collections.list(req.getParameterNames());
+    for  (String paramName : paramNames) {
+        //String paramName = req.getParameterNames().nextElement();
+        if (AccountVerificationHelper.PARAM_0.equals(paramName) || AccountVerificationHelper.PARAM_1.equals(paramName)) {
+            userAnswers.put(paramName,req.getParameter(paramName));
+        }
+    }
+    return (HashMap)userAnswers;
+
+}
+----

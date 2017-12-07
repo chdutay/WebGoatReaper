@@ -1,0 +1,29 @@
+== Cross-Site Scripting (XSS)
+
+=== Cross Site Scripting
+
+.Exercice 13 : stored-xss.js
+
+Il s'agit d'une faille XSS lors d'un appel Ajax. 
+
+Corriger l'erreur en utilisant échappant les caractères HTML : `new Option(unescaped).innerHTML;`
+
+
+[source,javascript]
+----
+$("#postComment").on("click", function () {
+    var commentInput = new Option($("#commentInput").val()).innerHTML;
+    $.ajax({
+        type: 'POST',
+        url: 'CrossSiteScripting/stored-xss',
+        data: JSON.stringify({text: commentInput}),
+        contentType: "application/json",
+        dataType: 'json'
+    }).then(
+        function () {
+            getChallenges();
+            $("#commentInput").val('');
+        }
+    )
+})
+----

@@ -1,0 +1,9 @@
+== Request Forgeries
+
+=== Cross-Site Request Forgeries
+
+.Exercice 3 : Basic Get CSRF Exercise
+
+Il y a un flag "csrf" en type hidden à false. Le passer à true (sans Refer dans le header).
+
+On passe alors dans le premier if. Voir la classe `CSRFGetFlag`.

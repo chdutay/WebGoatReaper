@@ -1,7 +1,7 @@
 == What is WebGoatReaper?
 ---
 
-image::images/scyth_farmer.jpg[The Veteran in a New field, 1865 - Winslow Homer,height=200,width=300,align="center"]
+image::images/goat_reaper.jpg[The Veteran in a New field, 1865 - Winslow Homer,height=250,width=199,align="center"]
 
 WebGoatReaper is a WebGoat lesson for developers.
 
@@ -26,5 +26,7 @@ link:#lesson/CrossSiteScripting.lesson/12[Cross-Site Scripting (XSS) > Cross Sit
 link:#lesson/IDOR.lesson/4[Access Control Flaws > Insecure Direct Object References]
 
 link:#lesson/InsecureLogin.lesson/1[Insecure Communication > Insecure Login]
+
+link:#lesson/CSRF.lesson/2[Request Forgeries > Cross-Site Request Forgeries]
 
 link:#lesson/ClientSideFiltering.lesson/1[Client side > Client side filtering]
