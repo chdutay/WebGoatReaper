@@ -16,3 +16,5 @@ Ajouter le message de réussite dans le fichier `i18n\WebGoatLabels.properties`
 ----
 idor.edit.profile.success3=Good work! Your application is now secured.
 ----
+
+Mot de passe : 4693f404c66c2bd33a4e0ba4c7a00cd8

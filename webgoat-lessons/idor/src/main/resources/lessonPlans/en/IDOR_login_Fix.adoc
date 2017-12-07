@@ -6,3 +6,5 @@ Pour la suite de l'exercice, il est nécessaire de se connecter comme demandé.
 Il est important de parcourir tous les exercices et notamment l'exercice 6 afin de bien comprendre la démarche de hacking.
 
 La correction sera indiquée après réussite de l'exercice 5.
+
+Mot de passe : 4693f404c66c2bd33a4e0ba4c7a00cd8

@@ -4,3 +4,5 @@
 Dans cette exemple, il s'agit d'une erreur d'algorithme qui peut facilement être détectée lors d'une revue de code.
 
 Analyser la classe `AccountVerificationHelper` et plus particulièrement la méthode *`verifyAccount()`*.
+
+Mot de passe : caa2bf948d7baa58db081cef58cfe7fa
