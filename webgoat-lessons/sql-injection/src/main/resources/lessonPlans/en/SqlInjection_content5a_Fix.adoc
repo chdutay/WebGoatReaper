@@ -10,4 +10,6 @@ statement.setString(1, accountName);
 ResultSet results = statement.executeQuery();
 ----
 
-Mot de passe : 7184321d12575f08afe593a778142909
+Mot de passe pour la solution complète disponible
+link:#lesson/WebGoatReaper.lesson/1[ici]:
+7184321d12575f08afe593a778142909

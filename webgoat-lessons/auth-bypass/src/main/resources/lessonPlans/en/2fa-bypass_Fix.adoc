@@ -5,4 +5,6 @@ Dans cette exemple, il s'agit d'une erreur d'algorithme qui peut facilement êtr
 
 Analyser la classe `AccountVerificationHelper` et plus particulièrement la méthode *`verifyAccount()`*.
 
-Mot de passe : caa2bf948d7baa58db081cef58cfe7fa
+Mot de passe pour la solution complète disponible
+link:#lesson/WebGoatReaper.lesson/2[ici]:
+caa2bf948d7baa58db081cef58cfe7fa

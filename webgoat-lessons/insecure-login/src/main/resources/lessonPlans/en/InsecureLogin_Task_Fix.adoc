@@ -33,4 +33,6 @@ Modifier la classe `InsecureLoginTask.java` afin de comparer les données crypt�
     }
 ----
 
-Mot de passe : c1e7dec397b677c6c2e65405f6e617bd
+Mot de passe pour la solution complète disponible
+link:#lesson/WebGoatReaper.lesson/5[ici]:
+c1e7dec397b677c6c2e65405f6e617bd

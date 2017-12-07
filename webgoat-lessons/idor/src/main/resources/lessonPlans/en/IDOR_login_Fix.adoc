@@ -7,4 +7,6 @@ Il est important de parcourir tous les exercices et notamment l'exercice 6 afin 
 
 La correction sera indiquée après réussite de l'exercice 5.
 
-Mot de passe : 4693f404c66c2bd33a4e0ba4c7a00cd8
+Mot de passe pour la solution complète disponible
+link:#lesson/WebGoatReaper.lesson/4[ici]:
+4693f404c66c2bd33a4e0ba4c7a00cd8

@@ -32,4 +32,6 @@ if("Managers".equals(node.getNodeName())){
     ...
 ----
 
-Mot de passe : 7fb60b28a6c3804e52c5929637d374a4
+Mot de passe pour la solution complète disponible
+link:#lesson/WebGoatReaper.lesson/7[ici]:
+7fb60b28a6c3804e52c5929637d374a4
