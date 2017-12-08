@@ -2,15 +2,17 @@
 
 L'utilisateur connecté ne doit avoir accès qu'aux utilisateurs pour lesquels il est manager.
 En l'état, l'utilisateur a accès à tous les utilisateurs et un filtrage est réalisé côté Javascript.
+A noter qu'ici, la liste d'utilisateurs est pré-initialisée côté HTML.
 Le filtrage doit être fait côté serveur.
 
-Modifier la classe `Salaries`
+On modifie la classe `Salaries`
+Et on filtre les données du fichier XML afin de ne prendre que les noeuds pour lesquels l'utilisateur connecté est le manager.
 
 [source,java]
 ----
 @RequestMapping(produces = {"application/json"})
 @ResponseBody
-//Ajout du paramètre userId
+//Ajout du paramètre userId en tant que RequestParam
 public List<Map<String, Object>> invoke(@RequestParam("userId") String userId) throws ServletException, IOException {
     NodeList nodes = null;
     File d = new File(webGoatHomeDirectory, "ClientSideFiltering/employees.xml");
@@ -24,9 +26,9 @@ public List<Map<String, Object>> invoke(@RequestParam("userId") String userId) t
     sb.append("/Employees/Employee/FirstName | ");
     sb.append("/Employees/Employee/LastName | ");
     sb.append("/Employees/Employee/SSN | ");
-    sb.append("/Employees/Employee/Salary |");
+    sb.append("/Employees/Employee/Salary | ");
     //Ajout de la récupération des Managers associés
-    sb.append("/Employees/Employee/Managers/* ");
+    sb.append("/Employees/Employee/Managers ");
 
     String expression = sb.toString();
 
@@ -35,40 +37,40 @@ public List<Map<String, Object>> invoke(@RequestParam("userId") String userId) t
     } catch (XPathExpressionException e) {
         e.printStackTrace();
     }
-    List<java.util.Map<String, Object>> json = Lists.newArrayList();
+    int COLUMNS = 6;
+    List json = Lists.newArrayList();
     java.util.Map<String, Object> employeeJson = Maps.newHashMap();
     for (int i = 0; i < nodes.getLength(); i++) {
         Node node = nodes.item(i);
-        if ("UserID".equals(node.getNodeName())) {
-            employeeJson = Maps.newHashMap();
-            json.add(employeeJson);
-        }
 
-        String mapKey = node.getNodeName();
-        if("Manager".equals(node.getNodeName())){
-            mapKey = mapKey + i;
-        }
-        employeeJson.put(mapKey, node.getTextContent());
-    }
-
-
-    List<java.util.Map<String, Object>> filteredjson = Lists.newArrayList();
-    for(java.util.Map<String, Object> employeeMap : json){
-        for(String employeeKey : employeeMap.keySet()){
-            boolean userIsManager = false;
-            if(employeeKey.startsWith("Manager")){
-                //Filtrage de la liste vis-à-vis du userId
-                if(userId.equals(employeeMap.get(employeeKey))){
-                    filteredjson.add(employeeMap);
+        if("Managers".equals(node.getNodeName())){
+            Boolean isManager = false;
+            for (int j = 0; j < node.getChildNodes().getLength(); j++) {
+                Node child = node.getChildNodes().item(j);
+                if(child.getTextContent().equals(userId)){ //L'utilisateur doit être manager
+                    isManager = true;
                     break;
                 }
             }
+            if(!isManager){//Sinon, on enlève l'employé de la liste en cours de remplissage
+                json.remove(employeeJson);
+            }
+        } else {
+            //Gestion des autres champs
+            if (i % COLUMNS == 0) {
+                employeeJson = Maps.newHashMap();
+                json.add(employeeJson); //Employé candidat
+            }
+            if (i % COLUMNS != COLUMNS - 1) {
+                employeeJson.put(node.getNodeName(), node.getTextContent());
+            }
         }
     }
-
-    return filteredjson;
+    return json;
 }
 ----
 
-NOTE: Quelle règle du TOP 10 n'est toujours pas respectée ?
+Dans la correction, on a positionné le userID à 102, on voit que les données de "Neville Bartholomew" ne remonte pas.
+
+NOTE: Quelle règle du TOP 10 n'est toujours pas respectée ? Indice : "userID" dans ClientSideFiltering.html
 

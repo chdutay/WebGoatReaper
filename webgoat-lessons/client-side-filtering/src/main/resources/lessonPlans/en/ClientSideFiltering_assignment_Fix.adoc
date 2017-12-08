@@ -1,17 +1,18 @@
 === Fix the hack
 
 L'utilisateur connecté a accès à tous les utilisateurs et un filtrage est réalisé côté Javascript.
+A noter qu'ici, la liste d'utilisateurs est pré-initialisée côté HTML.
 Le filtrage doit être fait côté serveur.
 
 Modifier la classe `Salaries` et récupérer l'utilisateur connecté.
 
 [source,java]
 ----
-@RequestParam("userId") String userId
+@RequestParam("userId") String userId //Dans les paramètres de la méthode invoke
 ----
 
 
-Ensuite, filtrer les données du fichier XML afin de ne prendre que les nodes pour lesquelles l'utilisateur connecté est le manager.
+Ensuite, filtrer les données du fichier XML afin de ne prendre que les noeuds pour lesquels l'utilisateur connecté est le manager.
 
 [source,java]
 ----
@@ -20,18 +21,18 @@ if("Managers".equals(node.getNodeName())){
     Boolean isManager = false;
     for (int j = 0; j < node.getChildNodes().getLength(); j++) {
         Node child = node.getChildNodes().item(j);
-        if(child.getTextContent().equals(userId)){
-            isManager = true;
-            break;
-        }
+        //child contient le Manager
     }
     if(!isManager){
-        json.remove(employeeJson);
+        //faire une action sur la liste
     }
 } else {
-    ...
+    //Gestion prévue des autres données
+    if (i % COLUMNS == 0) {
+    [...]
+}
 ----
 
 Mot de passe pour la solution complète disponible
-link:#lesson/WebGoatReaper.lesson/7[ici]:
+link:#lesson/WebGoatReaper.lesson/7[ici] :
 7fb60b28a6c3804e52c5929637d374a4
