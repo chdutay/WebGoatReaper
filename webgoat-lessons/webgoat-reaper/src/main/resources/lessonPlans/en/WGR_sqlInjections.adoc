@@ -1,18 +1,29 @@
-Corriger l'erreur d'injection SQL en utilisant l'objet `PreparedStatement`
+Dans le code original, le paramètre est passé à la requête avec une concaténation de chaîne.
+La correction consiste à paramétrer la requête en utilisant l'objet `PreparedStatement`.
+Avec les différentes méthodes `set*()`, on peut alors injecter nos paramètres.
 
 .Exercice 7 : SqlInjectionLesson5a.java
 
+Dans la méthode `injectableQuery` :
+
 [source,java]
 ----
-Connection connection = DatabaseUtilities.getConnection(getWebSession());
-String query = "SELECT * FROM user_data WHERE last_name = :accountName";
+protected AttackResult injectableQuery(String accountName) {
+    try {
+        Connection connection = DatabaseUtilities.getConnection(getWebSession());
+        String query = "SELECT * FROM user_data WHERE last_name = :lastName";
 
-PreparedStatement statement= connection.prepareStatement(query);
-statement.setString(1,accountName);
-ResultSet results = statement.executeQuery();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            statement.setString(1, accountName);
+            ResultSet results = statement.executeQuery();
+    [...]
 ----
 
 .Exercice 8 : SqlInjectionLesson5b.java
+
+Cet exercice est strictement équivalent au précédent.
 
 [source,java]
 ----
