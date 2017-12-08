@@ -3,6 +3,7 @@ package org.owasp.webgoat.plugin;
 import org.jcodings.util.Hash;
 import org.owasp.webgoat.session.UserSessionData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,14 +13,15 @@ import java.util.Map;
  */
 public class AccountVerificationHelper {
 
-
+    public static String PARAM_0 = "secQuestion0";
+    public static String PARAM_1 = "secQuestion1";
 
     //simulating database storage of verification credentials
     private  static final Integer verifyUserId = new Integer(1223445);
     private static final Map<String,String> userSecQuestions = new HashMap<>();
     static {
-        userSecQuestions.put("secQuestion0","Dr. Watson");
-        userSecQuestions.put("secQuestion1","Baker Street");
+        userSecQuestions.put(PARAM_0,"Dr. Watson");
+        userSecQuestions.put(PARAM_1,"Baker Street");
     }
 
     private static final Map<Integer,Map> secQuestionStore = new HashMap<>();
@@ -36,8 +38,8 @@ public class AccountVerificationHelper {
             likely = true;
         }
 
-        if ((submittedAnswers.containsKey("secQuestion0") && submittedAnswers.get("secQuestion0").equals(secQuestionStore.get(verifyUserId).get("secQuestion0"))) &&
-                (submittedAnswers.containsKey("secQuestion1") && submittedAnswers.get("secQuestion1").equals(secQuestionStore.get(verifyUserId).get("secQuestion1"))) ) {
+        if ((submittedAnswers.containsKey(PARAM_0) && submittedAnswers.get(PARAM_0).equals(secQuestionStore.get(verifyUserId).get(PARAM_0))) &&
+                (submittedAnswers.containsKey(PARAM_1) && submittedAnswers.get(PARAM_1).equals(secQuestionStore.get(verifyUserId).get(PARAM_1))) ) {
             likely = true;
         } else {
             likely = false;
@@ -49,21 +51,16 @@ public class AccountVerificationHelper {
     //end of cheating check ... the method below is the one of real interest. Can you find the flaw?
 
     public boolean verifyAccount(Integer userId, HashMap<String,String> submittedQuestions ) {
-        //short circuit if no questions are submitted
-        if (submittedQuestions.entrySet().size() != secQuestionStore.get(verifyUserId).size()) {
-            return false;
+        boolean check1 = false;
+        boolean check2 = false;
+        if(!CollectionUtils.isEmpty(submittedQuestions)){
+            if (submittedQuestions.containsKey(PARAM_0) && submittedQuestions.get(PARAM_0).equals(secQuestionStore.get(verifyUserId).get(PARAM_0))) {
+                check1=true;
+            }
+            if (submittedQuestions.containsKey(PARAM_1) && submittedQuestions.get(PARAM_1).equals(secQuestionStore.get(verifyUserId).get(PARAM_1))) {
+                check2=true;
+            }
         }
-
-        if (submittedQuestions.containsKey("secQuestion0") && !submittedQuestions.get("secQuestion0").equals(secQuestionStore.get(verifyUserId).get("secQuestion0"))) {
-            return false;
-        }
-
-        if (submittedQuestions.containsKey("secQuestion1") && !submittedQuestions.get("seQuestion1").equals(secQuestionStore.get(verifyUserId).get("secQuestion1"))) {
-            return false;
-        }
-
-        // else
-        return true;
-
+        return check1 && check2;
     }
 }
