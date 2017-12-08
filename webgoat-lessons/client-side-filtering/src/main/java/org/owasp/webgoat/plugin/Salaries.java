@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -37,7 +38,7 @@ public class Salaries extends Endpoint {
 
     @PostConstruct
     @SneakyThrows
-    public void copyFiles() {
+    public void copyFiles() throws IOException {
         ClassPathResource classPathResource = new ClassPathResource("employees.xml");
         File targetDirectory = new File(webGoatHomeDirectory, "/ClientSideFiltering");
         if (!targetDirectory.exists()) {
@@ -48,7 +49,7 @@ public class Salaries extends Endpoint {
 
     @RequestMapping(produces = {"application/json"})
     @ResponseBody
-    public List<Map<String, Object>> invoke() throws ServletException, IOException {
+    public List<Map<String, Object>> invoke(@RequestParam("userId") String userId) throws ServletException, IOException {
         NodeList nodes = null;
         File d = new File(webGoatHomeDirectory, "ClientSideFiltering/employees.xml");
         XPathFactory factory = XPathFactory.newInstance();
@@ -76,12 +77,27 @@ public class Salaries extends Endpoint {
         java.util.Map<String, Object> employeeJson = Maps.newHashMap();
         for (int i = 0; i < nodes.getLength(); i++) {
             Node node = nodes.item(i);
-            if (i % COLUMNS == 0) {
-                employeeJson = Maps.newHashMap();
-                json.add(employeeJson);
-            }
-            if (i % COLUMNS != COLUMNS-1) {
-                employeeJson.put(node.getNodeName(), node.getTextContent());
+
+            if("Managers".equals(node.getNodeName())){
+                Boolean isManager = false;
+                for (int j = 0; j < node.getChildNodes().getLength(); j++) {
+                    Node child = node.getChildNodes().item(j);
+                    if(child.getTextContent().equals(userId)){
+                        isManager = true;
+                        break;
+                    }
+                }
+                if(!isManager){
+                    json.remove(employeeJson);
+                }
+            } else {
+                if (i % COLUMNS == 0) {
+                    employeeJson = Maps.newHashMap();
+                    json.add(employeeJson);
+                }
+                if (i % COLUMNS != COLUMNS - 1) {
+                    employeeJson.put(node.getNodeName(), node.getTextContent());
+                }
             }
         }
         return json;
