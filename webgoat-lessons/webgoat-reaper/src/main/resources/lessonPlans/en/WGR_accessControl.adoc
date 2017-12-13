@@ -1,14 +1,18 @@
 Il est possible de visualiser les données d'un autre utilisateur en manipulant les requêtes HTTP.
 
-.Exercice 2 : Connexion
+=== Exercice 2 : Connexion
 
 Pour la suite de l'exercice il est nécessaire de se connecter comme demandé. Il est important de parcourir tous les exercices et notamment le 6 afin de comprendre la démarche.
 
-.Exercice 5 : Partie 1 - Accès aux données
+=== Exercice 5 : Partie 1 - Accès aux données
 
 Récupérer les headers de la requête obtenue lors de l'exercice 3 et faire le test cURL.
 
-TIP: Dans CHROME, il est possible de copier les informations d'une requête (Header, cURL command ...)
+[TIP]
+----
+Dans CHROME, il est possible de copier les informations d'une requête (Header, cURL command ...)
+Dans Firefox, il est possible d'éditer la requête pour la modifier et ne pas utiliser cURL.
+----
 
 Ensuite récupérer la requête indiqué dans l'exercice 5 et modifier le userId comme indiqué afin d'accéder aux données de l'utilisateur 2342388 (identifiable dans le code source)
 
@@ -18,7 +22,7 @@ curl "http://localhost:8080/WebGoat/IDOR/profile/2342388" ...
 ----
 
 
-.Exercice 5 : Partie 2 - Modification des données
+=== Exercice 5 : Partie 2 - Modification des données
 
 Modifier la requête pour exécuter un PUT et modifier les valeurs des attributes `role` et `color` de l'utilisateur 2342388
 
@@ -28,7 +32,7 @@ curl -X PUT -d "{"""role""" : 1,   """color""" : """red""", """userId""" : 23423
 ----
 
 
-.Correction
+== Correction
 
 Modifier la classe IDOREditOtherProfiile.java afin de ne pas autoriser de modification sur un utilisateur s'il est différent.
 
@@ -36,13 +40,26 @@ Retourner le code suivant pour indiquer la réussite :
 
 [source,java]
 ----
-return trackProgress(success().feedback("idor.edit.profile.success3").build());
+if (userSubmittedProfile.getUserId() != null && userSubmittedProfile.getUserId().equals(authUserId)) {
+    // let's get this started ...
+    currentUserProfile.setColor(userSubmittedProfile.getColor());
+    currentUserProfile.setRole(userSubmittedProfile.getRole());
+    // we will persist in the session object for now in case we want to refer back or use it later
+    userSessionData.setValue("idor-updated-other-profile",currentUserProfile);
+    return trackProgress(success()
+            .feedback("idor.edit.profile.success4")
+            .output(currentUserProfile.profileToMap().toString())
+            .build());
+} else if (userSubmittedProfile.getUserId() != null && userSubmittedProfile.getUserId().equals(authUserId)) {
+    return failed().feedback("idor.edit.profile.success3").build();
+}
 ----
 
 Ajouter le message de réussite dans le fichier WebGoatLabels.properties
 
 [source]
 ----
-idor.edit.profile.success3=Good work! Your application is secured
+idor.edit.profile.success3=Good work! You can't modified someone else's profile.
+idor.edit.profile.success4=Good work! You have modified your own profile.
 ----
 
