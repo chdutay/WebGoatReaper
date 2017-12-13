@@ -3,6 +3,7 @@ package org.owasp.webgoat.plugin;
 import org.owasp.webgoat.assignments.AssignmentEndpoint;
 import org.owasp.webgoat.assignments.AssignmentPath;
 import org.owasp.webgoat.assignments.AttackResult;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,12 +49,14 @@ import java.io.IOException;
 public class InsecureLoginTask extends AssignmentEndpoint {
 
     @RequestMapping(method = RequestMethod.POST)
-    public
     @ResponseBody
-    AttackResult completed(@RequestParam String username, @RequestParam String password) throws IOException {
-    	if (username.toString().equals("CaptainJack") && password.toString().equals("BlackPearl")) {
-    		return trackProgress(success().build());
-    	}
+    public AttackResult completed(@RequestParam String usernameMD5, @RequestParam String passwordMD5) throws IOException {
+        String md5CaptainJack = DigestUtils.md5DigestAsHex("CaptainJack".getBytes());
+        String md5BlackPearl = DigestUtils.md5DigestAsHex("BlackPearl".getBytes());
+        if (md5CaptainJack.equals(usernameMD5.toString())  && md5BlackPearl.equals(passwordMD5.toString())) {
+            return trackProgress(success().build());
+        }
         return trackProgress(failed().build());
     }
+
 }

@@ -29,9 +29,23 @@
                   action="/WebGoat/InsecureLogin/task"
                   enctype="application/json;charset=UTF-8">
                 <input type="text" value="" name="username" placeholder="username"/>
+                <input type="password" value="" name="usernameMD5" style="display: none"/>
                 <input type="password" value="" name="password" placeholder="password" />
+                <input type="password" value="" name="passwordMD5" style="display: none"/>
                 <input type="submit" value="Submit" id="submitButton" />
             </form>
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
+            <script>
+                $("#submitButton").click(function(event) {
+                    $("[name=usernameMD5]").val(CryptoJS.MD5($("[name=username]").val()).toString());
+                    $("[name=username]").val('');
+
+                    $("[name=passwordMD5]").val(CryptoJS.MD5($("[name=password]").val()).toString());
+                    $("[name=password]").val('');
+                })
+            </script>
+
             <div class="attack-feedback"></div>
             <div class="attack-output"></div>
         </div>
