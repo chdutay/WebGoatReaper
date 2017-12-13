@@ -54,40 +54,18 @@ public class IDOREditOtherProfiile extends AssignmentEndpoint {
         // Certain roles can sometimes edit others' profiles, but we shouldn't just assume that and let everyone, right?
         // Except that this is a vulnerable app ... so we will
         UserProfile currentUserProfile = new UserProfile(userId);
-        if (userSubmittedProfile.getUserId() != null && !userSubmittedProfile.getUserId().equals(authUserId)) {
+        if (userSubmittedProfile.getUserId() != null && userSubmittedProfile.getUserId().equals(authUserId)) {
             // let's get this started ...
             currentUserProfile.setColor(userSubmittedProfile.getColor());
             currentUserProfile.setRole(userSubmittedProfile.getRole());
             // we will persist in the session object for now in case we want to refer back or use it later
             userSessionData.setValue("idor-updated-other-profile",currentUserProfile);
-            if (currentUserProfile.getRole() <= 1 && currentUserProfile.getColor().toLowerCase().equals("red")) {
-                return trackProgress(success()
-                    .feedback("idor.edit.profile.success1")
+            return trackProgress(success()
+                    .feedback("idor.edit.profile.success4")
                     .output(currentUserProfile.profileToMap().toString())
                     .build());
-            }
-
-            if (currentUserProfile.getRole() > 1 && currentUserProfile.getColor().toLowerCase().equals("red")) {
-                return trackProgress(success()
-                        .feedback("idor.edit.profile.failure1")
-                        .output(currentUserProfile.profileToMap().toString())
-                        .build());
-            }
-
-            if (currentUserProfile.getRole() <= 1 && !currentUserProfile.getColor().toLowerCase().equals("red")) {
-                return trackProgress(success()
-                    .feedback("idor.edit.profile.failure2")
-                    .output(currentUserProfile.profileToMap().toString())
-                    .build());
-            }
-
-            // else
-            return trackProgress(failed().
-                feedback("idor.edit.profile.failure3")
-                .output(currentUserProfile.profileToMap().toString())
-                .build());
-        } else if (userSubmittedProfile.getUserId().equals(authUserId)) {
-            return failed().feedback("idor.edit.profile.failure4").build();
+        } else if (userSubmittedProfile.getUserId() != null && !userSubmittedProfile.getUserId().equals(authUserId)) {
+            return failed().feedback("idor.edit.profile.success3").build();
         }
 
         if (currentUserProfile.getColor().equals("black") && currentUserProfile.getRole() <= 1 ) {
@@ -95,6 +73,8 @@ public class IDOREditOtherProfiile extends AssignmentEndpoint {
                 .feedback("idor.edit.profile.success2")
                 .output(userSessionData.getValue("idor-updated-own-profile").toString())
                 .build());
+        } else if (authUserId == null) {
+            return trackProgress(failed().feedback("idor.edit.profile.failure0").build());
         } else {
             return trackProgress(failed().feedback("idor.edit.profile.failure3").build());
         }
