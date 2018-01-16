@@ -115,7 +115,7 @@ IntelliJ importe le projet.
 Les configurations de lancement suivantes sont possibles. La configuration via Spring Remote permettant en plus des modifications du code à chaud.
 
 
-===== Via Maven et SpringBoot (à privilégier)
+===== Via Maven et SpringBoot
 
 ====
 
@@ -128,7 +128,7 @@ image::ij_07.png[]
 Saisir le répertoire racine en "Working directory" puis saisir dans "Command line" ("mvn" ne doit pas être saisi) :
 [source,]
 ----
--pl webgoat-container spring-boot:run
+-pl webgoat-server spring-boot:run
 ----
 
 image::ij_01.png[]
