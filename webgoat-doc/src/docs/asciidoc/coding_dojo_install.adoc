@@ -7,7 +7,7 @@
 :lang: fr
 :toc: left
 :numbered:
-:path_tools: \\192.168.2.4\Projets\RCI\VEILLE_TECHNO\Sécurité_CodingDojo\Outils
+:path_tools: \\192.168.2.4\Projets\OPEN Chantiers Internes DEV\VEILLE_TECHNO\Sécurité_CodingDojo\Outils
 
 ifndef::imagesdir[:imagesdir: images]
 
@@ -15,7 +15,7 @@ ifndef::imagesdir[:imagesdir: images]
 
 ==== IntelliJ
 
-Installer IntelliJ à partir de l'installeur présent ici :
+Installer IntelliJ à partir de l'installeur présent ici (ideaIC-2017.2.5.exe):
 [source, subs="attributes"]
 ----
 {path_tools}
