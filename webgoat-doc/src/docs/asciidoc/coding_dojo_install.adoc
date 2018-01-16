@@ -43,6 +43,14 @@ ou
 http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 ----
 
+==== Git 
+
+Git n'est pas requis si vous récupérez les sources sous format Zip mais l'installeur est quand même présent ici :
+[source, subs="attributes"]
+----
+{path_tools}
+----
+
 ==== Connexion à Internet
 
 Déconnecter Internet.
