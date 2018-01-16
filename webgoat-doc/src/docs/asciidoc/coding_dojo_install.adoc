@@ -115,7 +115,25 @@ IntelliJ importe le projet.
 Les configurations de lancement suivantes sont possibles. La configuration via Spring Remote permettant en plus des modifications du code à chaud.
 
 
-===== Via Maven et SpringBoot
+===== Via Spring Remote
+
+====
+
+Configurer le lancement en tant qu'"Application" Java.
+
+Saisir en tant que "Main class" :
+[source,]
+----
+org.owasp.webgoat.StartWebGoat
+----
+
+Saisir le répertoire racine en "Working directory" :
+
+image::ij_09.png[]
+
+====
+
+===== Ou via Maven et SpringBoot
 
 ====
 
@@ -132,24 +150,6 @@ Saisir le répertoire racine en "Working directory" puis saisir dans "Command li
 ----
 
 image::ij_01.png[]
-
-====
-
-===== Ou via Spring Remote
-
-====
-
-Configurer le lancement en tant qu'"Application" Java.
-
-Saisir en tant que "Main class" :
-[source,]
-----
-org.owasp.webgoat.StartWebGoat
-----
-
-Saisir le répertoire racine en "Working directory" :
-
-image::ij_09.png[]
 
 ====
 
