@@ -90,6 +90,7 @@
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <forkMode>never</forkMode>
+                    <skipTests>true</skipTests>
                 </configuration>
             </plugin>
             <plugin>

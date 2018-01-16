@@ -62,7 +62,7 @@ Now let's start by compiling the project.
 ```Shell
 cd WebGoatReaper
 git checkout 
-mvn clean install
+mvn clean install -Dmaven.test.skip=true
 ```
 
 Now we are ready to run the project. WebGoat 8.x is using Spring-Boot.

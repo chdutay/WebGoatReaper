@@ -28,9 +28,6 @@ Modifier la classe `InsecureLoginTask.java` afin de comparer les données crypt�
 ----
     String md5CaptainJack = DigestUtils.md5DigestAsHex("CaptainJack".getBytes());
     String md5BlackPearl = DigestUtils.md5DigestAsHex("BlackPearl".getBytes());
-    if (md5CaptainJack.equals(usernameMD5.toString())  && md5BlackPearl.equals(passwordMD5.toString())) {
-        return trackProgress(success().build());
-    }
 ----
 
 Mot de passe pour la solution complète disponible

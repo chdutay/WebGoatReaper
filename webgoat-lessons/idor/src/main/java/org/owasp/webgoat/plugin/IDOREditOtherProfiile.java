@@ -95,6 +95,8 @@ public class IDOREditOtherProfiile extends AssignmentEndpoint {
                 .feedback("idor.edit.profile.success2")
                 .output(userSessionData.getValue("idor-updated-own-profile").toString())
                 .build());
+        } else if (authUserId == null) {
+            return trackProgress(failed().feedback("idor.edit.profile.failure0").build());
         } else {
             return trackProgress(failed().feedback("idor.edit.profile.failure3").build());
         }

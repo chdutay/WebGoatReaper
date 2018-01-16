@@ -14,7 +14,7 @@ Ajouter le message de réussite dans le fichier `i18n\WebGoatLabels.properties`
 
 [source]
 ----
-idor.edit.profile.success3=Good work! Your application is now secured.
+idor.edit.profile.success3=Good work! You can't modified someone else's profile.
 ----
 
 Mot de passe pour la solution complète disponible
