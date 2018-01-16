@@ -127,11 +127,12 @@ Saisir en tant que "Main class" :
 org.owasp.webgoat.StartWebGoat
 ----
 
-Saisir le répertoire racine en "Working directory" :
+Saisir le répertoire racine en "Working directory".
+Le classpath du module est `webgoat-server` et prendre la JRE par défaut (1.8).
 
 image::ij_09.png[]
 
-Le classpath du module est `webgoat-server` et prendre la JRE par défaut (1.8).
+
 
 ====
 
