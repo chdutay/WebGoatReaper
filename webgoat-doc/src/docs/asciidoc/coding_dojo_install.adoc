@@ -131,25 +131,7 @@ Saisir le répertoire racine en "Working directory" :
 
 image::ij_09.png[]
 
-====
-
-===== Ou via Maven et SpringBoot
-
-====
-
-Configurer le lancement via SpringBoot via le menu "Run" :
-
-image::ij_06.png[]
-
-image::ij_07.png[]
-
-Saisir le répertoire racine en "Working directory" puis saisir dans "Command line" ("mvn" ne doit pas être saisi) :
-[source,]
-----
--pl webgoat-server spring-boot:run
-----
-
-image::ij_01.png[]
+Le classpath du module est `webgoat-server` et prendre la JRE par défaut (1.8).
 
 ====
 
