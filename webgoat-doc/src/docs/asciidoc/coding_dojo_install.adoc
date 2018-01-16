@@ -72,8 +72,8 @@ Récupérer les sources de WebGoat :
 ----
 {path_tools}
 ----
-
-URL originale : https://github.com/WebGoat/WebGoat
+Avec Git, l'URL à utiliser est : https://github.com/chdutay/WebGoatReaper
+(URL originale : https://github.com/WebGoat/WebGoat)
 
 Dézipper l'archive dans un répertoire.
 
