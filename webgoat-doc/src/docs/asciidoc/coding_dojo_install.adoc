@@ -115,7 +115,7 @@ IntelliJ importe le projet.
 Les configurations de lancement suivantes sont possibles. La configuration via Spring Remote permettant en plus des modifications du code à chaud.
 
 
-===== Via Maven et SpringBoot
+===== Via Maven et SpringBoot (à privilégier)
 
 ====
 
@@ -135,7 +135,7 @@ image::ij_01.png[]
 
 ====
 
-===== Via Spring Remote
+===== Ou via Spring Remote
 
 ====
 
