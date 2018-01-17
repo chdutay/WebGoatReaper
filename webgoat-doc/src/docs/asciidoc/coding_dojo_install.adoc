@@ -53,7 +53,7 @@ Git n'est pas requis si vous récupérez les sources sous format Zip mais l'inst
 
 ==== Connexion à Internet
 
-Déconnecter Internet.
+Idéalement, déconnecter Internet quand WebGoat est utilisé.
 
 === WebGoat
 
@@ -85,6 +85,16 @@ Avec Git, l'URL à utiliser est : https://github.com/chdutay/WebGoatReaper
 
 Dézipper l'archive dans un répertoire.
 
+En console, se placer dans le répertoire à la racine.
+
+JAVA_HOME doit cibler la JDK précédemment installée.
+
+[source,]
+----
+set JAVA_HOME=C:\Program Files\Java\jdk1.8.0_121
+mvn clean install
+----
+
 ==== Configuration de WebGoat sous IntelliJ
 
 Au lancement, choisir "Import Project" :
@@ -112,7 +122,9 @@ image::ij_05.png[]
 Laisser les noms par défaut puis "Next".
 IntelliJ importe le projet.
 
-Les configurations de lancement suivantes sont possibles. La configuration via Spring Remote permettant en plus des modifications du code à chaud.
+
+
+La configuration via Spring Remote permettant en plus des modifications du code à chaud.
 
 
 ===== Via Spring Remote
@@ -161,7 +173,7 @@ Après connexion, l'application nous redirige vers la première leçon :
 
 image::wg_03.png[]
 
-==== Informations complémentaires
+==== Informations complémentaires/Problèmes connus
 
 Il se peut qu'IntelliJ mette à jour des indexes ou réalise des scans de fichiers au premier lancement.
 
