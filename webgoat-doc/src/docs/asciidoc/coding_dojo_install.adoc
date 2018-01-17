@@ -131,6 +131,8 @@ La configuration via Spring Remote permettant en plus des modifications du code 
 
 ====
 
+Dans la barre d'outils, aller dans `Run > Edit Configurations`.
+
 Configurer le lancement en tant qu'"Application" Java.
 
 Saisir en tant que "Main class" :
@@ -176,6 +178,9 @@ image::wg_03.png[]
 ==== Informations complémentaires/Problèmes connus
 
 Il se peut qu'IntelliJ mette à jour des indexes ou réalise des scans de fichiers au premier lancement.
+
+Au lancement de la commande maven, des erreurs peuvent survenir, vérifier le settings.xml associé à l'installation de Maven.
+Si les erreurs portent sur les jars du projet lui-même : retenter via `mvn install` ou `mvn clean install`
 
 La base MongoDb embarquée se déploie dans le répertoire de l'utilisateur Windows :
 [source,]
