@@ -7,7 +7,6 @@
 :lang: fr
 :toc: left
 :numbered:
-:path_tools: \\192.168.2.4\Projets\OPEN Chantiers Internes DEV\VEILLE_TECHNO\Sécurité_CodingDojo\Outils
 
 ifndef::imagesdir[:imagesdir: images]
 
@@ -16,12 +15,6 @@ ifndef::imagesdir[:imagesdir: images]
 ==== IntelliJ
 
 Installer IntelliJ à partir de l'installeur présent ici (ideaIC-2017.2.5.exe):
-[source, subs="attributes"]
-----
-{path_tools}
-----
-
-ou 
 
 [source, subs="attributes"]
 ----
@@ -31,12 +24,6 @@ https://www.jetbrains.com/idea/download/#section=windows
 ==== JDK
 
 S'assurer qu'une JDK 8 est installée, sinon :
-[source, subs="attributes"]
-----
-{path_tools}
-----
-
-ou 
 
 [source, subs="attributes"]
 ----
@@ -48,7 +35,7 @@ http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.h
 Git n'est pas requis si vous récupérez les sources sous format Zip mais l'installeur est quand même présent ici :
 [source, subs="attributes"]
 ----
-{path_tools}
+https://git-scm.com/downloads
 ----
 
 ==== Connexion à Internet
